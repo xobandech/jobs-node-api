@@ -20,6 +20,7 @@
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
+    "morgan": "^1.10.0",
     "npm": "^9.8.1",
     "rate-limiter": "^0.2.0",
     "start": "^5.1.0",
