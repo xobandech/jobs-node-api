@@ -1,4 +1,4 @@
-const { genSalt, hash } = require("bcryptjs");
+const { genSalt, hash, compare } = require("bcryptjs");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
@@ -42,6 +42,11 @@ UserSchema.methods.createJWT = function () {
 
 UserSchema.methods.getName = function () {
   return this.name
+}
+
+UserSchema.methods.comparePasswords = async function (candidatePassword) {
+  const isMatch = await compare(this.password, candidatePassword)
+  return isMatch
 }
 
 const User = mongoose.model("User", UserSchema);
