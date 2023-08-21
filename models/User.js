@@ -45,7 +45,7 @@ UserSchema.methods.getName = function () {
 }
 
 UserSchema.methods.comparePasswords = async function (candidatePassword) {
-  const isMatch = await compare(this.password, candidatePassword)
+  const isMatch = await compare(candidatePassword, this.password,)
   return isMatch
 }
 
