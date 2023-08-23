@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken")
 
 const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization
-    console.log(authHeader);
     if (!authHeader.startsWith('Bearer ') || !authHeader) {
         throw new UnauthenticatedError("Invalid auth headers")
     }
@@ -13,8 +12,6 @@ const authMiddleware = async (req, res, next) => {
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET)
         req.user = {userId: payload.userId, name: payload.name}
-        console.log(payload);
-        console.log("dasd");
     } catch (e) {
         throw new UnauthenticatedError("Invalid auth headers")
     }
