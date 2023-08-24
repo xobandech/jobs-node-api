@@ -38,8 +38,15 @@ const updateJob = async (req, res) => {
   res.status(StatusCodes.OK).json(modifiedJob)
 };
 
-const deleteJob = (req, res) => {
-  res.send("deleteJob");
+const deleteJob = async (req, res) => {
+  const user = req.user
+  const jobId = req.params.id
+  const deletedJob = await Job.findByIdAndDelete({_id: jobId, createdBy: user.userId})
+  console.log(deletedJob);
+  if(!deletedJob) {
+    throw new NotFoundError(`You dont have access to job with id ${jobId}`)
+  }
+  res.status(StatusCodes.NO_CONTENT).json({msg: "Job deleted successfully"})
 };
 
 module.exports = {
