@@ -3,6 +3,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={NavBar}>
+        <Route path="/jobs" element={JobsPage} />
         <Route path="/auth/login" element={LoginPage}/>
         <Route path="/auth/register" element={RegisterPage}/>
       </Route>
