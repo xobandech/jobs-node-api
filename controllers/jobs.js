@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const Job = require("../models/Job");
-const { NotFoundError } = require("../errors");
+const { NotFoundError, BadRequestError } = require("../errors");
 
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({createdBy: req.user.userId}).sort('createdAt')
@@ -25,8 +25,17 @@ const getJob = async (req, res) => {
   res.status(StatusCodes.OK).json(job)
 };
 
-const updateJob = (req, res) => {
-  res.send("updateJob");
+const updateJob = async (req, res) => {
+  const user = req.user
+  const jobId = req.params.id
+  const job = await Job.findOne({_id: jobId, createdBy: user.userId})
+  if(!job) {
+    throw new NotFoundError(`You dont have access to job with id ${jobId}`)
+  }
+  const data = req.body
+  if (!data.company && !data.position) throw new BadRequestError("Please provide company and/or position")
+  const modifiedJob = await Job.findByIdAndUpdate(jobId, data, { new: true });
+  res.status(StatusCodes.OK).json(modifiedJob)
 };
 
 const deleteJob = (req, res) => {
