@@ -13,7 +13,7 @@ const FormInput: FC<FormInputProps & { shrinkLabel: boolean }> = ({ label, shrin
       />
       {label && (
         <label
-          className={`text-gray-500 text-base font-normal absolute pointer-events-none left-2 top-2 transition-transform ${shrinkLabel ? "top-[-3vw] ease-in text-sm transition-all" : ''}`}
+          className={`text-gray-500 text-base font-normal absolute pointer-events-none left-2 top-2 transition-transform ${shrinkLabel ? "top-[-0.45rem]     ease-in text-[0.7rem] transition-all" : ''}`}
         >
           {label}
         </label>
