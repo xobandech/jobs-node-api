@@ -3,13 +3,15 @@ const User = require("../models/User");
 const { BadRequestError, UnauthenticatedError } = require("../errors/");
 
 const register = async (req, res) => {
-  const user = await User.create({ ...req.body });
-  res
-    .status(StatusCodes.CREATED)
-    .json({
+  try {
+    const user = await User.create({ ...req.body });
+    res.status(StatusCodes.CREATED).json({
       user: { name: user.getName(), email: user.email },
       token: user.createJWT(),
     });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const login = async (req, res) => {
