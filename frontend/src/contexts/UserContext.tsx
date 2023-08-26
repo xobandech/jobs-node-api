@@ -3,7 +3,7 @@ import { createContext } from "react";
 
 export type User = {
   name: string;
-  email: string;
+  userId: string;
 };
 
 export type UserData = {
@@ -21,14 +21,14 @@ export type UserContextType = {
 export const UserContext = createContext({
   token: "",
   setToken: (token: string) => {},
-  currentUser: { name: "", email: "" },
+  currentUser: { name: "", userId: "" },
   setCurrentUser: (user: User) => {},
 });
 
 const UserProvider = ({ children }: any) => {
   const localToken = localStorage.getItem("JWTToken")
   const [token, setToken] = useState(localToken ? localToken : "");
-  const [currentUser, setCurrentUser] = useState<User>({ name: "", email: "" });
+  const [currentUser, setCurrentUser] = useState<User>({ name: "", userId: "" });
   const value: UserContextType = {
     token,
     setToken,
