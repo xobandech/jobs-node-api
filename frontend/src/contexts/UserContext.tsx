@@ -1,27 +1,33 @@
 import { useState } from "react";
-import { createContext } from "vm";
+import { createContext } from "react";
 
 export type User = {
   name: string;
   email: string;
 };
 
+export type UserData = {
+    user: User
+    token: string
+}
+
 export type UserContextType = {
   token: string;
-  setToken: (token: "") => void;
+  setToken: (token: string) => void;
   currentUser: User;
   setCurrentUser: (arg0: User) => void;
 };
 
-const UserContext = createContext({
+export const UserContext = createContext({
   token: "",
-  setToken: () => null,
+  setToken: (token: string) => {},
   currentUser: { name: "", email: "" },
-  setCurrentUser: (user: User) => null,
+  setCurrentUser: (user: User) => {},
 });
 
 const UserProvider = ({ children }: any) => {
-  const [token, setToken] = useState("");
+  const localToken = localStorage.getItem("JWTToken")
+  const [token, setToken] = useState(localToken ? localToken : "");
   const [currentUser, setCurrentUser] = useState<User>({ name: "", email: "" });
   const value: UserContextType = {
     token,
@@ -33,4 +39,4 @@ const UserProvider = ({ children }: any) => {
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
-export default UserProvider
+export default UserProvider;
