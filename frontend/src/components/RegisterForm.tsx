@@ -58,7 +58,7 @@ const RegisterForm = () => {
       }
     }
   };
-
+  if (localToken) return <div></div>
   return (
     <>
       <form
