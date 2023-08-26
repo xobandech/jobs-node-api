@@ -1,6 +1,7 @@
+import LoginForm from "../components/LoginForm"
 const LoginPage = () => {
-    return <div>
-        <h1>LoginPage</h1>
+    return <div className="flex justify-center">
+        <LoginForm />
     </div>
 }
 export default LoginPage
