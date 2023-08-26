@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useContext } from "react";
 import FormInput from "../components/FormInput";
-import { UserContext, UserData } from "../contexts/UserContext";
-
+import { UserContext } from "../contexts/UserContext";
+import { UserData } from "../types/types";
 const defaultFormFields = {
   email: "",
   password: "",
