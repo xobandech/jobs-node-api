@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useContext } from "react";
 import FormInput from "../components/FormInput";
-import { UserContext, UserData } from "../contexts/UserContext";
+import { User, UserContext, UserData } from "../contexts/UserContext";
+import jwtDecode from "jwt-decode";
 
 const defaultFormFields = {
   name: "",
@@ -11,6 +12,14 @@ const defaultFormFields = {
 
 const RegisterForm = () => {
   const { setCurrentUser } = useContext(UserContext);
+  const localToken = localStorage.getItem("JTWToken");
+  if (localToken) {
+    const decodeToken = async () => {   
+      const user = await jwtDecode(localToken) as User;
+      setCurrentUser(user)
+    };
+    decodeToken()
+  }
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, password, confirmPassword } = formFields;
   const [responseOk, setResponseOk] = useState<null | boolean>(null);
