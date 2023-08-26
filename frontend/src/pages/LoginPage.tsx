@@ -1,7 +1,8 @@
 import jwtDecode from "jwt-decode";
 import { useContext } from "react";
 import LoginForm from "../components/LoginForm";
-import { UserContext, User } from "../contexts/UserContext";
+import { UserContext } from "../contexts/UserContext";
+import { User } from "../types/types";
 
 const LoginPage = () => {
   const { setCurrentUser } = useContext(UserContext);

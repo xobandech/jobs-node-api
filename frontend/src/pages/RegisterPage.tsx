@@ -2,7 +2,7 @@ import RegisterForm from "../components/RegisterForm";
 import jwtDecode from "jwt-decode";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { User } from "../contexts/UserContext";
+import { User } from "../types/types";
 const RegisterPage = () => {
   const { setCurrentUser } = useContext(UserContext);
   const localToken = localStorage.getItem("JTWToken");

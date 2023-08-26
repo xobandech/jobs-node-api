@@ -1,22 +1,6 @@
 import { useState } from "react";
 import { createContext } from "react";
-
-export type User = {
-  name: string;
-  userId: string;
-};
-
-export type UserData = {
-    user: User
-    token: string
-}
-
-export type UserContextType = {
-  token: string;
-  setToken: (token: string) => void;
-  currentUser: User;
-  setCurrentUser: (arg0: User) => void;
-};
+import { User, UserContextType } from "../types/types";
 
 export const UserContext = createContext({
   token: "",
