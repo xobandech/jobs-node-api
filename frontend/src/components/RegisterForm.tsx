@@ -1,5 +1,6 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useContext } from "react";
 import FormInput from "../components/FormInput";
+import { UserContext, UserData } from "../contexts/UserContext";
 
 const defaultFormFields = {
   name: "",
@@ -7,39 +8,47 @@ const defaultFormFields = {
   password: "",
   confirmPassword: "",
 };
+
 const RegisterForm = () => {
+  const { setCurrentUser } = useContext(UserContext);
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, password, confirmPassword } = formFields;
   const [responseOk, setResponseOk] = useState<null | boolean>(null);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
-    console.log(formFields);
   };
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
-    if (password == confirmPassword) {
-      await fetch("http://localhost:3001/api/v1/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      })
-        .then((res) => (res.ok ? setResponseOk(true) : setResponseOk(false)))
-        .then(() => setFormFields(defaultFormFields));
+    if (password === confirmPassword) {
+      const response = await fetch(
+        "http://localhost:3001/api/v1/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+          }),
+        }
+      );
+      if (response.ok) {
+        const data = (await response.json()) as UserData;
+        localStorage.setItem("JTWToken", data.token);
+        setCurrentUser(data.user);
+        setResponseOk(true);
+        window.location.replace("/jobs");
+      } else {
+        setResponseOk(false);
+      }
     }
-    console.log({
-      name,
-      email,
-      password,
-    });
   };
+
   return (
     <>
       <form
@@ -93,14 +102,14 @@ const RegisterForm = () => {
       <div
         className={`${responseOk != null ? "flex justify-center" : "hidden"}`}
       >
-        {responseOk == true
-          ? "Successfull register"
-          : responseOk == false
-          ? "Register failed..."
+        {responseOk === true
+          ? "Successfully registered"
+          : responseOk === false
+          ? "Registration failed..."
           : ""}
       </div>
     </>
   );
 };
 
-export default RegisterForm
+export default RegisterForm;
