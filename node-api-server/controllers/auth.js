@@ -31,8 +31,7 @@ const login = async (req, res) => {
     if (!isPasswordsMatch) {
       throw new BadRequestError("Incorrect password or email");
     }
-    const token = user.createJWT();
-    res.status(StatusCodes.OK).json({ user: { name: user.getName() }, token });
+    res.status(StatusCodes.OK).json({ user: { name: user.getName() }, token: user.createJWT() });
   } catch (e) {
     console.log(e);
   }
