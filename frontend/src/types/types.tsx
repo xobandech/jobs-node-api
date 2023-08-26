@@ -19,6 +19,7 @@ export type Job = {
     status: string
     company: string
     position: string
-    createdAt: Date
+    createdAt: string
     updatedAt: Date
+    _id: string
 }
