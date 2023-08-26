@@ -17,6 +17,7 @@ const RegisterForm = () => {
     const decodeToken = async () => {   
       const user = await jwtDecode(localToken) as User;
       setCurrentUser(user)
+      window.location.replace("/jobs");
     };
     decodeToken()
   }
