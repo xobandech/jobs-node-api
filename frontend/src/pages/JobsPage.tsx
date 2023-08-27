@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Job } from "../types/types";
 import JobCard from "../components/JobCard";
+import NewJobForm from "../components/NewJobForm";
 
 const JobsPage = () => {
   const [jobsData, setJobsData] = useState<{ jobs: Job[]; count: number }>();
@@ -26,6 +27,7 @@ const JobsPage = () => {
         jobsData.jobs.map((job) => {
           return <JobCard {...job} />;
         })}
+      <NewJobForm />
     </div>
   );
 };
