@@ -26,7 +26,6 @@ const JobsPage = () => {
         jobsData.jobs.map((job) => {
           return <JobCard {...job} />;
         })}
-      JobsPage
     </div>
   );
 };
