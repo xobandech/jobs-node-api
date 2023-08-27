@@ -8,7 +8,7 @@ const FormInput: FC<FormInputProps & { shrinkLabel: boolean }> = ({ label, shrin
   return (
     <div className="relative margin-y-10 input">
       <input
-        className="bg-white text-xl text-gray-500 px-2 py-1 w-full border-none border-b border-gray-500 focus:outline-none focus:border-black focus:ring-0 transition duration-300 ease-in-out"
+        className="bg-white text-xl text-black px-2 py-1 w-full border-none border-b border-gray-500 focus:outline-none focus:border-black focus:ring-0 transition duration-300 ease-in-out"
         {...otherProps}
       />
       {label && (
