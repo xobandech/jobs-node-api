@@ -1,5 +1,5 @@
 import { UserContext } from "../contexts/UserContext";
-import { Job } from "../types/types";
+import { APIResponse, Job } from "../types/types";
 import { useContext, useEffect, useState } from "react";
 const JobCard = ({
   position,
@@ -10,7 +10,11 @@ const JobCard = ({
   _id,
 }: Job) => {
   const { currentUser } = useContext(UserContext);
-  
+  const [response, setResponse] = useState<APIResponse>({
+    ok: false,
+    status: 0,
+    statusText: "",
+  });
   const [modifiedFields, setModifiedFields] = useState({
     position: "",
     company: "",
@@ -37,7 +41,8 @@ const JobCard = ({
     })
       .then((response) => response.json())
       .then((job) => console.log(job))
-      .catch((error) => console.error(error)).finally(() => setIsUpdating(false));
+      .catch((error) => console.error(error))
+      .finally(() => setIsUpdating(false));
   };
   const [isUpdating, setIsUpdating] = useState(false);
   const date = new Date(createdAt);
@@ -45,6 +50,13 @@ const JobCard = ({
   useEffect(() => {
     console.log();
   }, [modifiedFields]);
+  if (response.status == 204) {
+    return (
+      <div className="max-w-[320px] items-center flex h-36 outline outline-1 p-2 m-2">
+        <div className="mx-auto text-xl">Deleted</div>
+      </div>
+    );
+  }
   return (
     <div className="max-w-[320px] outline outline-1 p-2 m-2">
       <div className="flex justify-between">
@@ -67,7 +79,7 @@ const JobCard = ({
 
         <p>{dateString}</p>
       </div>
-      <div className="my-4">
+      <div className="my-4 justify-between flex">
         <button
           onClick={() => {
             if (!isUpdating) {
@@ -77,13 +89,27 @@ const JobCard = ({
               updateJob();
             }
           }}
-          className="w-20 mx-auto h-10 rounded-md bg-violet-200"
+          className="w-20 h-10 rounded-md bg-violet-200"
         >
           Update
         </button>
         <button
           hidden={!isUpdating}
-          className="w-20 mx-auto h-10 rounded-md bg-violet-200"
+          className="w-20  h-10 rounded-md bg-violet-200"
+          onClick={async () =>
+            await fetch(`http://localhost:3001/api/v1/jobs/${_id}`, {
+              method: "DELETE",
+              headers: {
+                authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
+              },
+            }).then((res) => setResponse(res))
+          }
+        >
+          Delete
+        </button>
+        <button
+          hidden={!isUpdating}
+          className="w-20  h-10 rounded-md bg-violet-200"
           onClick={() => setIsUpdating(false)}
         >
           Cancel
@@ -104,6 +130,8 @@ const JobCard = ({
           />
         </span>
         <select
+          className="outline outline-slate-700 outline-2"
+          disabled={!isUpdating}
           defaultValue={status}
           onChange={(e) =>
             setModifiedFields({ ...modifiedFields, status: e.target.value })
