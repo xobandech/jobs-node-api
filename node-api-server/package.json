@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start:server": "npx nodemon app.js",
+    "start:app": "npx nodemon websocket.js",
+    "start:both": "concurrently \"npm run start:server\" \"npm run start:app\""
   },
   "author": "",
   "license": "ISC",
@@ -23,12 +25,14 @@
     "morgan": "^1.10.0",
     "npm": "^9.8.1",
     "rate-limiter": "^0.2.0",
+    "socket.io": "^4.7.2",
     "start": "^5.1.0",
     "swagger-ui-express": "^4.1.6",
     "xss-clean": "^0.1.1",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.1",
     "nodemon": "^2.0.9"
   }
 }
