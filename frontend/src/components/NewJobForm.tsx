@@ -11,6 +11,16 @@ const NewJobForm = () => {
   const { position, status, company } = formFields;
   const handleCreateNewJob = async (e: FormEvent) => {
     e.preventDefault();
+    await fetch("http://localhost:3001/api/v1/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
+      },
+      body: JSON.stringify(formFields),
+    }).then((res) =>
+      res.ok ? setFormFields(defaultFormFields) : console.log("err")
+    );
   };
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -20,11 +30,14 @@ const NewJobForm = () => {
   };
 
   return (
-    <>
+    <div>
+      <div className="text-xl font-semibold flex justify-center">
+        <h1>Create new job</h1>
+      </div>
       <form
         id="myForm"
         onSubmit={(e) => handleCreateNewJob(e)}
-        className="flex mt-5 max-w-[300px] flex-col [&>.input]:mb-3"
+        className="flex [&>*]:my-2 mt-5 max-w-[300px] flex-col [&>.input]:mb-3"
       >
         <FormInput
           onChange={handleChange}
@@ -37,7 +50,7 @@ const NewJobForm = () => {
         />
         <FormInput
           onChange={handleChange}
-          label="Password"
+          label="Company"
           type="text"
           name="company"
           value={company}
@@ -61,7 +74,7 @@ const NewJobForm = () => {
           Create
         </button>
       </form>
-    </>
+    </div>
   );
 };
 
