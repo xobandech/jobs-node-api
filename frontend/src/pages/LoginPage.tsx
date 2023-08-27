@@ -6,9 +6,10 @@ import { User } from "../types/types";
 
 const LoginPage = () => {
   const { setCurrentUser } = useContext(UserContext);
-  const localToken = localStorage.getItem("JTWToken");
+  const localToken = localStorage.getItem("JWTToken");
   if (localToken) {
     const decodeToken = async () => {
+      
       const user = (await jwtDecode(localToken)) as User;
       setCurrentUser(user);
       window.location.replace("/jobs");

@@ -5,7 +5,7 @@ import { User } from "../types/types";
 import jwtDecode from "jwt-decode";
 const RegisterPage = () => {
   const { setCurrentUser } = useContext(UserContext);
-  const localToken = localStorage.getItem("JTWToken");
+  const localToken = localStorage.getItem("JWTToken");
   if (localToken) {
     
     const decodeToken = async () => {

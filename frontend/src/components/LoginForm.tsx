@@ -36,7 +36,7 @@ const LoginForm = () => {
       );
       if (response.ok) {
         const data = (await response.json()) as UserData;
-        localStorage.setItem("JTWToken", data.token);
+        localStorage.setItem("JWTToken", data.token);
         setCurrentUser(data.user);
         setResponseOk(true);
         window.location.replace("/jobs");
