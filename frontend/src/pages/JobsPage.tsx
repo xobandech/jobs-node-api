@@ -15,18 +15,20 @@ const JobsPage = () => {
       });
       const jobsData = await response.json();
       setJobsData(jobsData);
-      console.log(jobsData)
+      console.log(jobsData);
     };
     fetchJobsData();
   }, []);
 
   return (
-    <div>
-      {jobsData &&
-        jobsData.jobs &&
-        jobsData.jobs.map((job) => {
-          return <JobCard {...job} />;
-        })}
+    <div className="flex">
+      <div className="max-w-[320px] w-full">
+        {jobsData &&
+          jobsData.jobs &&
+          jobsData.jobs.map((job) => {
+            return <JobCard {...job} />;
+          })}
+      </div>
       <NewJobForm />
     </div>
   );
