@@ -16,10 +16,16 @@ export type UserContextType = {
 };
 
 export type Job = {
-    status: string
-    company: string
-    position: string
-    createdAt: string
-    updatedAt: Date
-    _id: string
-}
+  status: string;
+  company: string;
+  position: string;
+  createdAt: string;
+  updatedAt: Date;
+  _id: string;
+};
+
+export type APIResponse = {
+  ok: boolean;
+  status: number;
+  statusText: string;
+};
