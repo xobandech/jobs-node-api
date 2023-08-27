@@ -3,13 +3,14 @@ import FormInput from "./FormInput";
 
 const defaultFormFields = {
   position: "",
-  status: "",
+  status: "pending",
   company: "",
 };
 const NewJobForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { position, status, company } = formFields;
   const handleCreateNewJob = async (e: FormEvent) => {
+    try {
     e.preventDefault();
     await fetch("http://localhost:3001/api/v1/jobs", {
       method: "POST",
@@ -19,8 +20,12 @@ const NewJobForm = () => {
       },
       body: JSON.stringify(formFields),
     }).then((res) =>
-      res.ok ? setFormFields(defaultFormFields) : console.log("err")
-    );
+      console.log(res)
+    );}
+    catch(e) {
+      console.log(e);
+      
+    }
   };
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
