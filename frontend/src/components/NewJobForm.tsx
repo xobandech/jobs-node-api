@@ -1,14 +1,12 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import FormInput from "./FormInput";
-import { io } from "socket.io-client";
-
+import socket from "../modules/socket";
 const defaultFormFields = {
   position: "",
   status: "pending",
   company: "",
 };
 const NewJobForm = () => {
-  const socket = io("http://localhost:3001");
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { position, status, company } = formFields;
   const handleCreateNewJob = async (e: FormEvent) => {
