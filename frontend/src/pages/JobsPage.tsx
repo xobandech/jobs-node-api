@@ -31,6 +31,27 @@ const JobsPage = () => {
             );
           }, 1500);
       });
+      socket.on("sendUpdatedJob", function (updatedJob: Job) {
+        setJobsData(prevJobsData => {
+          if (!prevJobsData?.jobs) return prevJobsData;
+      
+          const existingJobs = prevJobsData.jobs;
+          const updatedJobs = [...existingJobs];
+          
+          const updatedJobIndex = updatedJobs.findIndex(job => job._id === updatedJob._id);
+          if (updatedJobIndex !== -1) {
+            updatedJobs[updatedJobIndex] = updatedJob;
+          }
+      
+          return {
+            jobs: updatedJobs,
+            count: (prevJobsData.count || 0) + 1
+          };
+        });
+      });
+      
+      
+      
     });
   }, []);
 
@@ -49,15 +70,18 @@ const JobsPage = () => {
   }, []);
 
   return (
-    <div className="flex">
-      <div className="max-w-[320px] w-full">
-        {jobsData &&
-          jobsData.jobs &&
-          jobsData.jobs.map((job) => {
-            return <JobCard {...job} />;
-          })}
-      </div>
+    <div className="">
       <NewJobForm />
+      <div className="w-full">
+        <div className="flex justify-center text-xl font-semibold">Jobs</div>
+        <div className="grid grid-cols-4 max-xl:grid-cols-3 max-sm:flex max-sm:items-center max-sm:flex-col max-sm:justify-center max-lg:grid-cols-2">
+          {jobsData &&
+            jobsData.jobs &&
+            jobsData.jobs.map((job) => {
+              return <JobCard {...job} />;
+            })}
+        </div>
+      </div>
     </div>
   );
 };
