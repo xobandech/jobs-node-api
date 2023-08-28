@@ -49,8 +49,8 @@ const start = async () => {
     console.log("A user connected");
     socket.emit("message", "Welcome to the server!");
     socket.on("newJob", function (job) {
-      console.log(job);
-  });
+      ioServer.emit("sendJob", job)
+    });
   })
   } catch (error) {
     console.log(error);
