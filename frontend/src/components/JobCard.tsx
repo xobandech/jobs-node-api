@@ -1,6 +1,7 @@
 import { UserContext } from "../contexts/UserContext";
 import { APIResponse, Job } from "../types/types";
 import { useContext, useEffect, useState } from "react";
+import socket from "../modules/socket";
 const JobCard = ({
   position,
   company,
@@ -9,6 +10,7 @@ const JobCard = ({
   updatedAt,
   _id,
 }: Job) => {
+  const [isUpdating, setIsUpdating] = useState(false);
   const { currentUser } = useContext(UserContext);
   const [response, setResponse] = useState<APIResponse>({
     ok: false,
@@ -44,7 +46,6 @@ const JobCard = ({
       .catch((error) => console.error(error))
       .finally(() => setIsUpdating(false));
   };
-  const [isUpdating, setIsUpdating] = useState(false);
   const date = new Date(createdAt);
   const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
   useEffect(() => {
@@ -58,7 +59,7 @@ const JobCard = ({
     );
   }
   return (
-    <div className="max-w-[320px] outline outline-1 p-2 m-2">
+    <div key={_id} className="max-w-[320px] outline outline-1 p-2 m-2">
       <div className="flex justify-between">
         <p>
           Pos: <span hidden={isUpdating}>{position}</span>
@@ -96,14 +97,23 @@ const JobCard = ({
         <button
           hidden={!isUpdating}
           className="w-20  h-10 rounded-md bg-violet-200"
-          onClick={async () =>
-            await fetch(`http://localhost:3001/api/v1/jobs/${_id}`, {
-              method: "DELETE",
-              headers: {
-                authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
-              },
-            }).then((res) => setResponse(res))
-          }
+          onClick={async () => {
+            const response = await fetch(
+              `http://localhost:3001/api/v1/jobs/${_id}`,
+              {
+                method: "DELETE",
+                headers: {
+                  authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
+                },
+              }
+            );
+            setResponse(response)
+            setIsUpdating(false)
+            setTimeout(() => {
+              setResponse({...response, status: 0})
+            }, 1500)
+            socket.emit("deleteJob", _id)
+          }}
         >
           Delete
         </button>
