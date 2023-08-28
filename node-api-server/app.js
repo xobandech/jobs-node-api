@@ -47,10 +47,12 @@ const start = async () => {
 
   ioServer.on("connection", (socket) => {
     console.log("A user connected");
-    socket.emit("message", "Welcome to the server!");
     socket.on("newJob", function (job) {
       ioServer.emit("sendJob", job)
     });
+    socket.on("deleteJob", function (deletedJobId) {
+      ioServer.emit("sendDeletedJob", deletedJobId)
+    })
   })
   } catch (error) {
     console.log(error);
@@ -58,4 +60,4 @@ const start = async () => {
 };
 
 start();
-module.exports = { app, ioServer, start };
+module.exports = { ioServer };
