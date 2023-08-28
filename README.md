@@ -4,7 +4,7 @@ In node-api-server .env set up MONGO_URI and JWT_SECRET variables
 
 in frontend .env set up DANGEROUSLY_DISABLE_HOST_CHECK=true and JWT_SECRET variables
 
-cd node-api-server
+cd node-api-server \n
 npm i
 npm run start
 cd ../frontend
