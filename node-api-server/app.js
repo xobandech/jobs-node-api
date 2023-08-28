@@ -53,6 +53,9 @@ const start = async () => {
     socket.on("deleteJob", function (deletedJobId) {
       ioServer.emit("sendDeletedJob", deletedJobId)
     })
+    socket.on("updateJob", function(updatedJob) {
+      ioServer.emit("sendUpdatedJob", updatedJob)
+    })
   })
   } catch (error) {
     console.log(error);
