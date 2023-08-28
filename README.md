@@ -1,4 +1,4 @@
-How to run project.<br />
+<h3>How to run project.</h3><br />
 
 In node-api-server .env set up MONGO_URI and JWT_SECRET variables <br />
 
