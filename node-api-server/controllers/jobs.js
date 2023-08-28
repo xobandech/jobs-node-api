@@ -52,7 +52,6 @@ const deleteJob = async (req, res) => {
     _id: jobId,
     createdBy: user.userId,
   });
-  console.log(deletedJob);
   if (!deletedJob) {
     throw new NotFoundError(`You dont have access to job with id ${jobId}`);
   }
