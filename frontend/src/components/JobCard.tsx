@@ -11,7 +11,6 @@ const JobCard = ({
   _id,
 }: Job) => {
   const [isUpdating, setIsUpdating] = useState(false);
-  const { currentUser } = useContext(UserContext);
   const [response, setResponse] = useState<APIResponse>({
     ok: false,
     status: 0,
@@ -33,7 +32,7 @@ const JobCard = ({
         updatedFields[key] = modifiedFields[key as keyof typeof modifiedFields];
     }
 
-    await fetch(`http://localhost:3001/api/v1/jobs/${_id}`, {
+    const response = await fetch(`http://localhost:3001/api/v1/jobs/${_id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -41,26 +40,28 @@ const JobCard = ({
       },
       body: JSON.stringify(updatedFields),
     })
-      .then((response) => response.json())
-      .then((job) => console.log(job))
-      .catch((error) => console.error(error))
-      .finally(() => setIsUpdating(false));
+    
+    setResponse(response)
+    const updatedJob = await response.json()    
+    socket.emit("updateJob", updatedJob)
+
+    setIsUpdating(false)
   };
   const date = new Date(createdAt);
   const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
 
   if (response.status == 204) {
     return (
-      <div className="items-center flex h-36 outline outline-1 p-2 m-2">
+      <div className="items-center w-[320px] flex h-36 outline outline-1 p-2 m-2">
         <div className="mx-auto text-xl">Deleted</div>
       </div>
     );
   }
   return (
-    <div key={_id} className="max-w-[320px] outline outline-1 p-2 m-2">
+    <div key={_id} className="w-[320px] outline outline-1 p-2 m-2">
       <div className="flex justify-between">
         <p>
-          Pos: <span hidden={isUpdating}>{position}</span>
+          Pos: <span hidden={isUpdating}>{modifiedFields.position ? modifiedFields.position : position}</span>
           <span hidden={!isUpdating}>
             <input
               type="text"
@@ -125,7 +126,7 @@ const JobCard = ({
       </div>
       <div className="flex justify-between">
         <p hidden={isUpdating} className="font-semibold">
-          {company}
+          {modifiedFields.company ? modifiedFields.company : company}
         </p>
         <span hidden={!isUpdating}>
           <input
@@ -140,7 +141,7 @@ const JobCard = ({
         <select
           className="outline outline-slate-700 outline-2"
           disabled={!isUpdating}
-          defaultValue={status}
+          defaultValue={modifiedFields.status ? modifiedFields.status : status}
           onChange={(e) =>
             setModifiedFields({ ...modifiedFields, status: e.target.value })
           }
