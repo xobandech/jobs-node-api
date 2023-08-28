@@ -48,9 +48,7 @@ const JobCard = ({
   };
   const date = new Date(createdAt);
   const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
-  useEffect(() => {
-    console.log();
-  }, [modifiedFields]);
+
   if (response.status == 204) {
     return (
       <div className="items-center flex h-36 outline outline-1 p-2 m-2">
