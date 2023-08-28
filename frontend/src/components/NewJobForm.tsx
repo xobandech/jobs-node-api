@@ -1,5 +1,6 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import FormInput from "./FormInput";
+import { io } from "socket.io-client";
 
 const defaultFormFields = {
   position: "",
@@ -7,32 +8,39 @@ const defaultFormFields = {
   company: "",
 };
 const NewJobForm = () => {
+  const socket = io("http://localhost:3001");
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { position, status, company } = formFields;
   const handleCreateNewJob = async (e: FormEvent) => {
     try {
-    e.preventDefault();
-    await fetch("http://localhost:3001/api/v1/jobs", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
-      },
-      body: JSON.stringify(formFields),
-    }).then((res) =>
-      console.log(res)
-    );}
-    catch(e) {
+      e.preventDefault();
+      const response = await fetch("http://localhost:3001/api/v1/jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
+        },
+        body: JSON.stringify(formFields),
+      });
+  
+      const job = await response.json(); 
+  
+      socket.emit("newJob", job);
+    } catch (e) {
       console.log(e);
-      
     }
   };
+  
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
+
+  useEffect(() => {
+    socket.on("connect", function () {});
+  }, []);
 
   return (
     <div>
