@@ -2,22 +2,38 @@ import { useEffect, useState } from "react";
 import { Job } from "../types/types";
 import JobCard from "../components/JobCard";
 import NewJobForm from "../components/NewJobForm";
-import { io } from "socket.io-client"
+import socket from "../modules/socket";
 const JobsPage = () => {
   const [jobsData, setJobsData] = useState<{ jobs: Job[]; count: number }>();
-  const socket = io("http://localhost:3001");
   useEffect(() => {
     socket.on("connect", function () {
       socket.on("sendJob", function (job) {
-        setJobsData((prevJobsData) => (prevJobsData && {
-          jobs: [...prevJobsData.jobs, job],
-          count: prevJobsData.count + 1
-        }));
+        setJobsData(
+          (prevJobsData) =>
+            prevJobsData && {
+              jobs: [...prevJobsData.jobs, job],
+              count: prevJobsData.count + 1,
+            }
+        );
+      });
+      socket.on("sendDeletedJob", function (deletedJobId) {
+        console.log(deletedJobId);
+        deletedJobId &&
+          setTimeout(() => {
+            setJobsData(
+              (prevJobsData) =>
+                prevJobsData && {
+                  jobs: prevJobsData.jobs.filter((job) => {
+                    return job._id != deletedJobId;
+                  }),
+                  count: prevJobsData.count - 1,
+                }
+            );
+          }, 1500);
       });
     });
   }, []);
-  
-  
+
   useEffect(() => {
     const fetchJobsData = async () => {
       const response = await fetch("http://localhost:3001/api/v1/jobs", {
