@@ -41,7 +41,7 @@ const NewJobForm = () => {
   }, []);
 
   return (
-    <div className="w-1/3">
+    <div className="w-1/3 max-lg:flex flex-col max-lg:w-full max-lg:items-center">
       <div className="text-xl font-semibold flex justify-center">
         <h1>Create new job</h1>
       </div>
@@ -69,7 +69,7 @@ const NewJobForm = () => {
           shrinkLabel={Boolean(company)}
         />
         <select
-          className="outline outline-slate-700 outline-2"
+          className="outline rounded outline-slate-700 outline-2"
           defaultValue={status}
           name="status"
           onChange={handleChange}
@@ -80,7 +80,7 @@ const NewJobForm = () => {
         </select>
         <button
           type="submit"
-          className="w-20 mx-auto h-10 rounded-md bg-violet-200"
+          className="rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
         >
           Create
         </button>

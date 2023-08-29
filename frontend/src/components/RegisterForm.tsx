@@ -94,7 +94,7 @@ const RegisterForm = () => {
         />
         <button
           type="submit"
-          className="w-20 mx-auto h-10 rounded-md bg-violet-200"
+          className="w-20 mx-auto h-10 rounded-md bg-[#B4A2E8] text-[#333]"
         >
           Register
         </button>

@@ -58,12 +58,13 @@ const JobCard = ({
     );
   }
   return (
-    <div key={_id} className="w-[320px] outline outline-1 p-2 m-2">
+    <div key={_id} className="w-[320px] text-[#333] outline-[2px] outline rounded-sm bg-[#eaeaea]  p-2 m-2">
       <div className="flex justify-between">
         <p>
-          Pos: <span hidden={isUpdating}>{modifiedFields.position ? modifiedFields.position : position}</span>
+          <span hidden={isUpdating}>{modifiedFields.position ? modifiedFields.position : position}</span>
           <span hidden={!isUpdating}>
             <input
+            className="rounded-md max-w-[150px] ml-1"
               type="text"
               onChange={(e) =>
                 setModifiedFields({
@@ -72,12 +73,24 @@ const JobCard = ({
                 })
               }
               hidden={!isUpdating}
-              placeholder={`${position}`}
+              placeholder=" Position"
             />
           </span>
         </p>
-
-        <p>{dateString}</p>
+        <p hidden={isUpdating} className="font-semibold">
+          {modifiedFields.company ? modifiedFields.company : company}
+        </p>
+        <span hidden={!isUpdating}>
+          <input
+          className="rounded-md max-w-[150px] ml-1"
+            type="text"
+            onChange={(e) =>
+              setModifiedFields({ ...modifiedFields, company: e.target.value })
+            }
+            hidden={!isUpdating}
+            placeholder=" Company"
+          />
+        </span>
       </div>
       <div className="my-4 justify-between flex">
         <button
@@ -89,13 +102,13 @@ const JobCard = ({
               updateJob();
             }
           }}
-          className="w-20 h-10 rounded-md bg-violet-200"
+          className="inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
         >
           Update
         </button>
         <button
           hidden={!isUpdating}
-          className="w-20  h-10 rounded-md bg-violet-200"
+          className="inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
           onClick={async () => {
             const response = await fetch(
               `http://localhost:3001/api/v1/jobs/${_id}`,
@@ -118,28 +131,16 @@ const JobCard = ({
         </button>
         <button
           hidden={!isUpdating}
-          className="w-20  h-10 rounded-md bg-violet-200"
+          className="inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
           onClick={() => setIsUpdating(false)}
         >
           Cancel
         </button>
       </div>
       <div className="flex justify-between">
-        <p hidden={isUpdating} className="font-semibold">
-          {modifiedFields.company ? modifiedFields.company : company}
-        </p>
-        <span hidden={!isUpdating}>
-          <input
-            type="text"
-            onChange={(e) =>
-              setModifiedFields({ ...modifiedFields, company: e.target.value })
-            }
-            hidden={!isUpdating}
-            placeholder={company}
-          />
-        </span>
+        
         <select
-          className="outline outline-slate-700 outline-2"
+          className="outline rounded-sm p-1 outline-slate-700 outline-2"
           disabled={!isUpdating}
           defaultValue={modifiedFields.status ? modifiedFields.status : status}
           onChange={(e) =>
@@ -150,6 +151,8 @@ const JobCard = ({
           <option value="interview">Interview</option>
           <option value="declined">Declined</option>
         </select>
+        <p>{dateString}</p>
+
       </div>
     </div>
   );
