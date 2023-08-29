@@ -41,7 +41,7 @@ const NewJobForm = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-1/3">
       <div className="text-xl font-semibold flex justify-center">
         <h1>Create new job</h1>
       </div>
