@@ -52,7 +52,7 @@ const JobCard = ({
 
   if (response.status == 204) {
     return (
-      <div className="items-center w-[320px] flex h-36 outline outline-1 p-2 m-2">
+      <div className="items-center w-[320px] bg-[#eaeaea] flex h-36 outline outline-1 p-2 m-2">
         <div className="mx-auto text-xl">Deleted</div>
       </div>
     );
