@@ -3,3 +3,11 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+body, html {
+    height: 100%;
+}
+#root {
+    height: 100%;
+    overflow: auto;
+}
