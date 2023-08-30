@@ -1,7 +1,7 @@
 export type User = {
   name: string;
   userId: string;
-};
+} | undefined;
 
 export type UserData = {
   user: User;
@@ -11,7 +11,7 @@ export type UserData = {
 export type UserContextType = {
   token: string;
   setToken: (token: string) => void;
-  currentUser: User;
+  currentUser: User | undefined;
   setCurrentUser: (arg0: User) => void;
 };
 
