@@ -4,15 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 
 const NavBar = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext);
-  const signHandler = async () => {   
-    if (currentUser?.name.length) {
-      setCurrentUser(undefined);
-      localStorage.removeItem("JWTToken");
-      redirect("/")
-    }
-    redirect("/")
-  };
-  
+
   return (
     <>
       <div className="flex text-[#f4f4f4] p-2 justify-between w-full bg-[#21273D]">
@@ -26,9 +18,20 @@ const NavBar = () => {
         >
           TODOS
         </button>
-        <button onClick={() => signHandler()} type="reset" className="mr-4 text-lg">
+        <NavLink
+          to={currentUser?.name ? "/" : "/auth/login"}
+          onClick={() => {
+            if (currentUser?.name) {
+              setCurrentUser(undefined);
+              localStorage.removeItem("JWTToken");
+              redirect("/");
+            }
+          }}
+          type="reset"
+          className="mr-4 text-lg"
+        >
           {currentUser?.name.length ? "Sign Out" : "Sign In"}
-        </button>
+        </NavLink>
       </div>
       <Outlet />
     </>
