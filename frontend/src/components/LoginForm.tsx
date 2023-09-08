@@ -50,7 +50,7 @@ const LoginForm = () => {
       <form
         id="myForm"
         onSubmit={(e) => handleLogin(e)}
-        className="flex mt-5 max-w-[300px] flex-col [&>.input]:mb-3"
+        className="flex mt-5 max-w-[300px] flex-col h-fit [&>.input]:mb-3"
       >
 
         <FormInput
