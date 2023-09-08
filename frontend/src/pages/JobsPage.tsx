@@ -3,6 +3,7 @@ import { Job } from "../types/types";
 import JobCard from "../components/JobCard";
 import NewJobForm from "../components/NewJobForm";
 import socket from "../modules/socket";
+
 const JobsPage = () => {
   const [jobsData, setJobsData] = useState<{ jobs: Job[]; count: number }>();
   useEffect(() => {
@@ -69,7 +70,7 @@ const JobsPage = () => {
   }, []);
 
   return (
-    <div className="flex max-md:w-full max-md:flex-col-reverse bg-[#6A759B] h-[95vh] max-md:items-center max-md:h-full">
+    <div className="flex max-md:w-full  max-md:flex-col-reverse h-full max-md:items-center max-md:h-full">
       <div className="w-2/3 max-lg:w-[55%]">
         <p className=" flex justify-center text-xl font-semibold">Jobs</p>
         <div className="grid grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3 max-lg:flex max-lg:items-center max-lg:flex-col max-sm:justify-center max-xl:grid-cols-2">

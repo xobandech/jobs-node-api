@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createContext } from "react";
 import { User, UserContextType } from "../types/types";
+import jwtDecode from "jwt-decode";
 
 export const UserContext = createContext<UserContextType>({
   token: "",
@@ -12,7 +13,8 @@ export const UserContext = createContext<UserContextType>({
 const UserProvider = ({ children }: any) => {
   const localToken = localStorage.getItem("JWTToken")
   const [token, setToken] = useState(localToken ? localToken : "");
-  const [currentUser, setCurrentUser] = useState<User>({name: "", userId: ""});
+  const decoded = localToken && jwtDecode(localToken) as User
+  const [currentUser, setCurrentUser] = useState<User>(decoded ? {name: decoded.name, userId: decoded.userId} : {name: "", userId: ""});
   const value: UserContextType = {
     token,
     setToken,
