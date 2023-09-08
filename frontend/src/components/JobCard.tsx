@@ -103,7 +103,7 @@ const JobCard = ({
           }}
           className="inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
         >
-          Update
+          {isUpdating ? "Confirm" : "Update"}
         </button>
         <button
           className={`inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal ${!isUpdating ? "hidden" : ""} text-white bg-blue-500`}
