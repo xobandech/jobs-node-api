@@ -18,7 +18,7 @@ const LoginPage = () => {
   }
   if (localToken) return <div></div>;
   return (
-    <div className="flex justify-center">
+    <div className="flex h-full justify-center">
       <LoginForm />
     </div>
   );
