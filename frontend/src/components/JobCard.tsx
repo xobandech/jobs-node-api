@@ -49,7 +49,6 @@ const JobCard = ({
   };
   const date = new Date(createdAt);
   const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
-
   if (response.status == 204) {
     return (
       <div className="items-center w-[320px] bg-[#eaeaea] flex h-36 outline outline-1 p-2 m-2">
@@ -107,6 +106,12 @@ const JobCard = ({
           Update
         </button>
         <button
+          className={`inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal ${!isUpdating ? "hidden" : ""} text-white bg-blue-500`}
+          onClick={() => setIsUpdating(false)}
+        >
+          Cancel
+        </button>
+        <button
           hidden={!isUpdating}
           className="inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
           onClick={async () => {
@@ -129,16 +134,8 @@ const JobCard = ({
         >
           Delete
         </button>
-        <button
-          hidden={!isUpdating}
-          className="inline-block rounded bg-primary p-2 px-4 font-medium uppercase leading-normal text-white bg-blue-500"
-          onClick={() => setIsUpdating(false)}
-        >
-          Cancel
-        </button>
       </div>
       <div className="flex justify-between">
-        
         <select
           className="outline rounded-sm p-1 outline-slate-700 outline-2"
           disabled={!isUpdating}
