@@ -28,7 +28,7 @@ const NavBar = () => {
             }
           }}
           type="reset"
-          className="mr-4 text-lg"
+          className="mr-4 text-lg my-auto"
         >
           {currentUser?.name.length ? "Sign Out" : "Sign In"}
         </NavLink>
