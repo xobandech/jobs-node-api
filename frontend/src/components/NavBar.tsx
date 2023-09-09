@@ -16,7 +16,7 @@ const NavBar = () => {
           style={{ fontFamily: "Oswald, sans-serif", fontSize: "2.5rem" }}
           className="text-4xl"
         >
-          TODOS
+          JOBS MANAGER
         </button>
         <NavLink
           to={currentUser?.name ? "/" : "/auth/login"}
