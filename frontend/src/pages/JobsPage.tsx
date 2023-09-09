@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Job } from "../types/types";
 import JobCard from "../components/JobCard";
 import NewJobForm from "../components/NewJobForm";
 import socket from "../modules/socket";
+import { UserContext } from "../contexts/UserContext";
 
 const JobsPage = () => {
+  const { currentUser } = useContext(UserContext);
   const [jobsData, setJobsData] = useState<{ jobs: Job[]; count: number }>();
   useEffect(() => {
     socket.on("connect", function () {
@@ -57,17 +59,21 @@ const JobsPage = () => {
 
   useEffect(() => {
     const fetchJobsData = async () => {
-      const response = await fetch("http://localhost:3001/api/v1/jobs", {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
-        },
-      });
-      const jobsData = await response.json();
-      setJobsData(jobsData);
+      if (currentUser?.name.length) {
+        const response = await fetch("http://localhost:3001/api/v1/jobs", {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
+          },
+        });
+        const jobsData = await response.json();
+        setJobsData(jobsData);
+      }
     };
     fetchJobsData();
   }, []);
+  
+  if (!currentUser?.name) return <div>Log in to browse jobs</div>;
 
   return (
     <div className="flex max-md:w-full  max-md:flex-col-reverse h-full max-md:items-center max-md:h-full">
