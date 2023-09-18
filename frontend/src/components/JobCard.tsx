@@ -1,6 +1,5 @@
-import { UserContext } from "../contexts/UserContext";
 import { APIResponse, Job } from "../types/types";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import socket from "../modules/socket";
 const JobCard = ({
   position,
